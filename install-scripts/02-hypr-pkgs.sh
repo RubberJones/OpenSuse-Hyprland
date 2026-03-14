@@ -50,7 +50,7 @@ hypr_package=(
     qt5ct
     qt6ct
     qt6-svg-devel
-    rofi-wayland
+    rofi
     rsync
     slurp
     swappy
@@ -145,4 +145,3 @@ done
 xdg-user-dirs-update
 
 printf "\n%.0s" {1..2}
-
