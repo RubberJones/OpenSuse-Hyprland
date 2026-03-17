@@ -1,5 +1,17 @@
 ## CHANGELOGS
 
+#### 📅 **Updated: March 27th, 2026**
+
+- Added check for `rofi` it was begin removed
+    - Script was trying to install `rofi-wayland`
+    - Package no longer exists
+    - Now checks for rofi installed and correct version
+- Added check for `paplay`
+    - Removes remove delay in playing notification sounds
+    - Also needed for `Toggle-Active-Window-Audio.sh`
+- Migrated Jakoolit references to LinuxBeginnings
+- Updated discord link
+
 ## 01 Dec 2025
 
 - Found new source for `quickshell` for OpenSuse
