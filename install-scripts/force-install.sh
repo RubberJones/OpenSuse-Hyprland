@@ -1,5 +1,11 @@
 #!/bin/bash
-# 💫 https://github.com/LinuxBeginnings 💫 #
+# ==================================================
+#  KoolDots (2026)
+#  Project URL: https://github.com/LinuxBeginnings
+#  License: GNU GPLv3
+#  SPDX-License-Identifier: GPL-3.0-or-later
+# ==================================================
+# 💫 https://github.com/KoolDots 💫 #
 # force reinstall packages cause it says its already installed but still not
 # some users report that they need to install this packages
 
