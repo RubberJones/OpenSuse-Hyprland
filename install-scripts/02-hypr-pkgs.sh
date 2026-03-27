@@ -43,6 +43,7 @@ hypr_package=(
     pulseaudio-utils
     playerctl
     polkit-gnome
+    xfce-polkit
     python312-requests
     python312-pip
     python311-pyquery

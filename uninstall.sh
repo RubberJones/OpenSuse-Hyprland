@@ -100,6 +100,7 @@ packages=(
     "ffmpegthumbnailer" "FFmpeg Thumbnailer" "off"
     "grim" "screenshot tool" "off"
     "polkit-gnome" "polkit agent" "off"
+    "xfce-polkit" "polkit agent" "off"
     "ImageMagick" "Image manipulation tool" "off"
     "kitty" "kitty-terminal" "off"
     "kvantum-qt6" "QT apps theming" "off"
