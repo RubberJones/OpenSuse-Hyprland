@@ -11,6 +11,7 @@
     - Also needed for `Toggle-Active-Window-Audio.sh`
 - Migrated Jakoolit references to LinuxBeginnings
 - Updated discord link
+- Added `timshift` and deps for BTRFS snapshotting
 
 ## 01 Dec 2025
 

@@ -13,7 +13,10 @@
 
 # add packages wanted here
 Extra=(
-
+    # for btrfs snaposhots
+    timeshift
+    cronie
+    debianutils
 )
 
 # packages neeeded
