@@ -5,7 +5,6 @@
 #  License: GNU GPLv3
 #  SPDX-License-Identifier: GPL-3.0-or-later
 # ==================================================
-# 💫 https://github.com/KoolDots 💫 #
 # Cliphist via go ( and force installing go) #
 
 # 16 Feb 2025 - cliphist is now added in hypr-pkgs as it is now in TW repo
@@ -15,16 +14,19 @@ cliphist=(
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change the working directory to the parent directory of the script
 PARENT_DIR="$SCRIPT_DIR/.."
-cd "$PARENT_DIR" || { echo "${ERROR} Failed to change directory to $PARENT_DIR"; exit 1; }
+cd "$PARENT_DIR" || {
+    echo "${ERROR} Failed to change directory to $PARENT_DIR"
+    exit 1
+}
 
 # Source the global functions script
 if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
-  echo "Failed to source Global_functions.sh"
-  exit 1
+    echo "Failed to source Global_functions.sh"
+    exit 1
 fi
 
 # Set the name of the log file to include the current date and time
@@ -32,9 +34,9 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_cliphist.log"
 
 # force reinstall go because on my experience it says installed but its not installing cliphist
 printf "${NOTE} Installing ${SKY_BLUE}cliphist (clipboard Manager) via go${RESET} ...\n"
- for CLIP in "${cliphist[@]}"; do
-   sudo zypper in -f -y "$CLIP" 2>&1 | tee -a "$LOG"
-  done
+for CLIP in "${cliphist[@]}"; do
+    sudo zypper in -f -y "$CLIP" 2>&1 | tee -a "$LOG"
+done
 
 # Install cliphist using go
 export PATH=$PATH:/usr/local/bin

@@ -5,44 +5,45 @@
 #  License: GNU GPLv3
 #  SPDX-License-Identifier: GPL-3.0-or-later
 # ==================================================
-# 💫 https://github.com/KoolDots 💫 #
 # Fonts Required #
 
 fonts=(
-  adobe-sourcecodepro-fonts
-  fira-code-fonts
-  fontawesome-fonts
-  google-droid-fonts
-  google-noto-sans-cjk-fonts
-  google-noto-coloremoji-fonts
-  liberation-fonts
-  noto-sans-mono-fonts
-  symbols-only-nerd-fonts
-  xorg-x11-fonts-core
+    adobe-sourcecodepro-fonts
+    fira-code-fonts
+    fontawesome-fonts
+    google-droid-fonts
+    google-noto-sans-cjk-fonts
+    google-noto-coloremoji-fonts
+    liberation-fonts
+    noto-sans-mono-fonts
+    symbols-only-nerd-fonts
+    xorg-x11-fonts-core
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change the working directory to the parent directory of the script
 PARENT_DIR="$SCRIPT_DIR/.."
-cd "$PARENT_DIR" || { echo "${ERROR} Failed to change directory to $PARENT_DIR"; exit 1; }
+cd "$PARENT_DIR" || {
+    echo "${ERROR} Failed to change directory to $PARENT_DIR"
+    exit 1
+}
 
 # Source the global functions script
 if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
-  echo "Failed to source Global_functions.sh"
-  exit 1
+    echo "Failed to source Global_functions.sh"
+    exit 1
 fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_fonts.log"
 
-
 # Installation of main components
 printf "\n%s - Installing necessary ${SKY_BLUE}fonts${RESET}.... \n" "${NOTE}"
 
 for PKG1 in "${fonts[@]}"; do
-  install_package "$PKG1" "$LOG"
+    install_package "$PKG1" "$LOG"
 done
 
 printf "\n%.0s" {1..2}
@@ -83,9 +84,9 @@ fi
 # Update font cache and log the output
 fc-cache -v 2>&1 | tee -a "$LOG"
 
-# clean up 
+# clean up
 if [ -d "JetBrainsMono.tar.xz" ]; then
-	rm -r JetBrainsMono.tar.xz 2>&1 | tee -a "$LOG"
+    rm -r JetBrainsMono.tar.xz 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

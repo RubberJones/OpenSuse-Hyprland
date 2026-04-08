@@ -5,42 +5,44 @@
 #  License: GNU GPLv3
 #  SPDX-License-Identifier: GPL-3.0-or-later
 # ==================================================
-# 💫 https://github.com/KoolDots 💫 #
 # Final checking if packages are installed
 # NOTE: These package checks are only the essentials
 
 packages=(
-  cliphist
-  rofi-wayland
-  ImageMagick
-  SwayNotificationCenter
-  swww
-  waybar
-  wl-clipboard
-  wlogout
-  kitty
-  hypridle
-  hyprlock
-  hyprland
+    cliphist
+    rofi-wayland
+    ImageMagick
+    SwayNotificationCenter
+    swww
+    waybar
+    wl-clipboard
+    wlogout
+    kitty
+    hypridle
+    hyprlock
+    hyprland
 )
 
 # Local packages that should be in /usr/local/bin/
 local_pkgs_installed=(
-  #cliphist
-  wallust 
+    #cliphist
+    wallust
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change the working directory to the parent directory of the script
 PARENT_DIR="$SCRIPT_DIR/.."
-cd "$PARENT_DIR" || { echo "${ERROR} Failed to change directory to $PARENT_DIR"; exit 1; }
+cd "$PARENT_DIR" || {
+    echo "${ERROR} Failed to change directory to $PARENT_DIR"
+    exit 1
+}
 
 # Source the global functions script
 if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
-  echo "Failed to source Global_functions.sh"
-  exit 1
+    echo "Failed to source Global_functions.sh"
+    exit 1
 fi
 
 # Set the name of the log file to include the current date and time
@@ -53,7 +55,7 @@ local_missing=()
 
 # Function to check if a package is installed using zypper
 is_installed_zypper() {
-    zypper se --installed-only "$1" > /dev/null 2>&1
+    zypper se --installed-only "$1" >/dev/null 2>&1
 }
 
 # Loop through each package
@@ -79,7 +81,7 @@ else
         echo "${WARN} The following packages are not installed and will be logged:"
         for pkg in "${missing[@]}"; do
             echo "$pkg"
-            echo "$pkg" >> "$LOG" # Log the missing package to the file
+            echo "$pkg" >>"$LOG" # Log the missing package to the file
         done
     fi
 
@@ -87,10 +89,10 @@ else
         echo "${WARN} The following local packages are missing from /usr/local/bin/ and will be logged:"
         for pkg in "${local_missing[@]}"; do
             echo "$pkg1 is not installed. can't find it in /usr/local/bin/"
-            echo "$pkg" >> "$LOG" # Log the missing local package to the file
+            echo "$pkg" >>"$LOG" # Log the missing local package to the file
         done
     fi
 
     # Add a timestamp when the missing packages were logged
-    echo "${NOTE} Missing packages logged at $(date)" >> "$LOG"
+    echo "${NOTE} Missing packages logged at $(date)" >>"$LOG"
 fi
