@@ -10,7 +10,7 @@
 
 packages=(
     cliphist
-    rofi-wayland
+    rofi
     ImageMagick
     SwayNotificationCenter
     swww
