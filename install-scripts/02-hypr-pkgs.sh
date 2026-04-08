@@ -158,6 +158,15 @@ done
 for PKG_N in "${package_no_recommends[@]}"; do
     install_package_no "$PKG_N" "$LOG"
 done
+# Ensure rofi is installed (some repos may fail during the main batch)
+if ! rpm -q rofi &>/dev/null; then
+    echo "${WARN} rofi is missing after the main install batch. Attempting install..." | tee -a "$LOG"
+    install_package rofi "$LOG"
+    if ! rpm -q rofi &>/dev/null; then
+        echo "${WARN} rofi still missing after zypper install. Trying opi..." | tee -a "$LOG"
+        install_package_opi rofi "$LOG"
+    fi
+fi
 
 # update home libraries
 xdg-user-dirs-update

@@ -53,15 +53,27 @@ printf "\n%s - Final Check if all ${SKY_BLUE}Essential packages${RESET} were ins
 missing=()
 local_missing=()
 
-# Function to check if a package is installed using zypper
-is_installed_zypper() {
-    zypper se --installed-only "$1" >/dev/null 2>&1
+# Function to check if a package is installed
+is_installed_pkg() {
+    local pkg="$1"
+
+    if command -v rpm >/dev/null 2>&1; then
+        rpm -qa --qf '%{NAME}\n' | grep -iqx "$pkg"
+        return $?
+    fi
+
+    if command -v zypper >/dev/null 2>&1; then
+        zypper se -i -x "$pkg" >/dev/null 2>&1
+        return $?
+    fi
+
+    return 1
 }
 
 # Loop through each package
 for pkg in "${packages[@]}"; do
-    # Check if the package is installed via zypper
-    if ! is_installed_zypper "$pkg"; then
+    # Check if the package is installed
+    if ! is_installed_pkg "$pkg"; then
         missing+=("$pkg")
     fi
 done
@@ -88,7 +100,7 @@ else
     if [ ${#local_missing[@]} -ne 0 ]; then
         echo "${WARN} The following local packages are missing from /usr/local/bin/ and will be logged:"
         for pkg in "${local_missing[@]}"; do
-            echo "$pkg1 is not installed. can't find it in /usr/local/bin/"
+            echo "$pkg is not installed. can't find it in /usr/local/bin/"
             echo "$pkg" >>"$LOG" # Log the missing local package to the file
         done
     fi
