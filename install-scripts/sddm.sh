@@ -1,84 +1,93 @@
 #!/bin/bash
-# 💫 https://github.com/LinuxBeginnings 💫 #
+# ==================================================
+#  KoolDots (2026)
+#  Project URL: https://github.com/LinuxBeginnings
+#  License: GNU GPLv3
+#  SPDX-License-Identifier: GPL-3.0-or-later
+# ==================================================
 # SDDM with optional SDDM theme #
 
-# installing with NO-recommends
-sddm1=(
-  sddm
+sddm_no=(
+    sddm-qt6
 )
 
-sddm2=(
-  libqt6svg6
-  qt6-declarative-dev
-  qt6-svg-dev
-  qt6-virtualkeyboard-plugin
-  libqt6multimedia6
-  qml6-module-qtquick-controls
-  qml6-module-qtquick-effects
+sddm=(
+    libQt6Svg6
+    qt6-declarative
+    qt6-svg
+    qt6-virtualkeyboard
+    qt6-virtualkeyboard-imports
+    qt6-multimedia
+    qt6-multimedia-imports
+    xorg-x11-server
+    xf86-input-evdev
 )
 
 # login managers to attempt to disable
 login=(
-  lightdm 
-  gdm3 
-  gdm 
-  lxdm 
-  lxdm-gtk3
+    lightdm
+    gdm3
+    gdm
+    lxdm
+    lxdm-gtk3
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change the working directory to the parent directory of the script
 PARENT_DIR="$SCRIPT_DIR/.."
-cd "$PARENT_DIR" || { echo "${ERROR} Failed to change directory to $PARENT_DIR"; exit 1; }
+cd "$PARENT_DIR" || {
+    echo "${ERROR} Failed to change directory to $PARENT_DIR"
+    exit 1
+}
 
 # Source the global functions script
 if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
-  echo "Failed to source Global_functions.sh"
-  exit 1
+    echo "Failed to source Global_functions.sh"
+    exit 1
 fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_sddm.log"
 
-
-# Install SDDM (no-recommends)
+# Install SDDM
 printf "\n%s - Installing ${SKY_BLUE}SDDM and dependencies${RESET} .... \n" "${NOTE}"
-for PKG1 in "${sddm1[@]}" ; do
-  sudo apt install --no-install-recommends -y "$PKG1" | tee -a "$LOG"
+for PKG1 in "${sddm_no[@]}"; do
+    install_package_no "$PKG1" "$LOG"
 done
 
-# Installation of additional sddm stuff
-for PKG2 in "${sddm2[@]}"; do
-  install_package "$PKG2"  "$LOG"
+for PKG1 in "${sddm[@]}"; do
+    install_package_no "$PKG1" "$LOG"
 done
 
-# Check if other login managers are installed and disable their service before enabling SDDM
+# Check if other login managers are installed and disable their service before enabling sddm
 for login_manager in "${login[@]}"; do
-  if dpkg -l | grep -q "^ii  $login_manager"; then
-    echo "Disabling $login_manager..."
-    sudo systemctl disable "$login_manager.service" >> "$LOG" 2>&1 || echo "Failed to disable $login_manager" >> "$LOG"
-    echo "$login_manager disabled."
-  fi
+    if sudo zypper se -i "$login_manager" >/dev/null; then
+        echo "disabling $login_manager..."
+        sudo systemctl disable "$login_manager.service" >>"$LOG" 2>&1
+        echo "$login_manager disabled."
+    fi
 done
 
 # Double check with systemctl
 for manager in "${login[@]}"; do
-  if systemctl is-active --quiet "$manager.service" > /dev/null 2>&1; then
-    echo "$manager.service is active, disabling it..." >> "$LOG" 2>&1
-    sudo systemctl disable "$manager.service" --now >> "$LOG" 2>&1 || echo "Failed to disable $manager.service" >> "$LOG"
-  else
-    echo "$manager.service is not active" >> "$LOG" 2>&1
-  fi
+    if systemctl is-active --quiet "$manager" >/dev/null 2>&1; then
+        echo "$manager is active, disabling it..." >>"$LOG" 2>&1
+        sudo systemctl disable "$manager" --now >>"$LOG" 2>&1
+    fi
 done
 
 printf "\n%.0s" {1..1}
 printf "${INFO} Activating sddm service........\n"
 sudo systemctl set-default graphical.target 2>&1 | tee -a "$LOG"
+sudo update-alternatives --set default-displaymanager /usr/lib/X11/displaymanagers/sddm 2>&1 | tee -a "$LOG"
 sudo systemctl enable sddm.service 2>&1 | tee -a "$LOG"
 
 wayland_sessions_dir=/usr/share/wayland-sessions
-[ ! -d "$wayland_sessions_dir" ] && { printf "$CAT - $wayland_sessions_dir not found, creating...\n"; sudo mkdir -p "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"; }
+[ ! -d "$wayland_sessions_dir" ] && {
+    printf "$CAT - $wayland_sessions_dir not found, creating...\n"
+    sudo mkdir -p "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"
+}
 
 printf "\n%.0s" {1..2}
