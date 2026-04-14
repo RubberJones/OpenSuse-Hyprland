@@ -1,4 +1,13 @@
-## CHANGELOGS
+## CHANGELOG
+
+#### 📅 **Updated: April 14th, 2026**
+
+- Added missing QT kvantum pkgs to fix polykit issues
+    - Programs like `easyeffects` and `timeshift` weren't starting
+
+    ```bash
+        sudo zypper in kvantum-qt5 libQt5QuickControls2-devel libqt5-qtdeclarative-tools qt6-declarative-imports qt6-declarative-tools
+    ```
 
 #### 📅 **Updated: March 27th, 2026**
 
