@@ -9,6 +9,7 @@
 # packages neeeded
 dependencies=(
     devel_basis
+    rsync
 )
 
 # forced install as some reports failure that opi is not installed

@@ -11,6 +11,9 @@
 
 - Improved: Error handling in the `install.sh` script
     - Thank you `@moukhtar22` for finding this and filing an issue
+- Removed incorrect `qt` packages
+    - Thank you `@moukhtar22` for finding this and filing an issue
+- Added `hyprsunset`
 
 #### 📅 **Updated: March 27th, 2026**
 

@@ -30,6 +30,7 @@ hypr_package=(
     grim
     gvfs
     gvfs-backends
+    hyprsunset
     ImageMagick
     inxi
     jq
