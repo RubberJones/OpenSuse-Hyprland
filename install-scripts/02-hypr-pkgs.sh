@@ -30,13 +30,19 @@ hypr_package=(
     grim
     gvfs
     gvfs-backends
+    hyprsunset
     ImageMagick
     inxi
     jq
     kitty
+    kvantum-manager
+    kvantum-qt5
     kvantum-qt6
     kvantum-themes
-    kvantum-manager
+    libqt5-qtdeclarative-tools
+    libQt5QuickControls2-devel
+    qt6-declarative-imports
+    qt6-declarative-tools
     libnotify-tools
     nano
     openssl
