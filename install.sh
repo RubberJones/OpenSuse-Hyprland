@@ -285,22 +285,37 @@ printf "\n%.0s" {1..1}
 
 echo "${INFO} Adding ${SKY_BLUE}Packman Repo...${RESET}" | tee -a "$LOG"
 sleep 1
-execute_script "00-add-repo.sh" || { echo "${ERROR:-[ERROR]} Repo setup failed" | tee -a "$LOG"; exit 1; }
+execute_script "00-add-repo.sh" || {
+    echo "${ERROR:-[ERROR]} Repo setup failed" | tee -a "$LOG"
+    exit 1
+}
 
 echo "${INFO} Installing ${SKY_BLUE}necessary dependencies...${RESET}" | tee -a "$LOG"
 sleep 1
-execute_script "01-dependencies.sh" || { echo "${ERROR:-[ERROR]} Dependencies installation failed" | tee -a "$LOG"; exit 1; }
+execute_script "01-dependencies.sh" || {
+    echo "${ERROR:-[ERROR]} Dependencies installation failed" | tee -a "$LOG"
+    exit 1
+}
 
 echo "${INFO} Installing ${SKY_BLUE}necessary fonts...${RESET}" | tee -a "$LOG"
 sleep 1
-execute_script "fonts.sh" || { echo "${ERROR:-[ERROR]} Fonts installation failed" | tee -a "$LOG"; exit 1; }
+execute_script "fonts.sh" || {
+    echo "${ERROR:-[ERROR]} Fonts installation failed" | tee -a "$LOG"
+    exit 1
+}
 
 echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland packages...${RESET}" | tee -a "$LOG"
 sleep 1
-execute_script "02-hypr-pkgs.sh" || { echo "${ERROR:-[ERROR]} Hyprland packages installation failed" | tee -a "$LOG"; exit 1; }
+execute_script "02-hypr-pkgs.sh" || {
+    echo "${ERROR:-[ERROR]} Hyprland packages installation failed" | tee -a "$LOG"
+    exit 1
+}
 
 sleep 1
-execute_script "hyprland.sh" || { echo "${ERROR:-[ERROR]} Hyprland installation failed" | tee -a "$LOG"; exit 1; }
+execute_script "hyprland.sh" || {
+    echo "${ERROR:-[ERROR]} Hyprland installation failed" | tee -a "$LOG"
+    exit 1
+}
 
 sleep 1
 execute_script "hypr-ecosystem.sh"
@@ -382,7 +397,10 @@ for option in "${options[@]}"; do
         ;;
     dots)
         echo "${INFO} Installing pre-configured ${SKY_BLUE}KooL Hyprland dotfiles...${RESET}" | tee -a "$LOG"
-        execute_script "dotfiles-main.sh" || { echo "${ERROR:-[ERROR]} Dotfiles installation failed" | tee -a "$LOG"; exit 1; }
+        execute_script "dotfiles-main.sh" || {
+            echo "${ERROR:-[ERROR]} Dotfiles installation failed" | tee -a "$LOG"
+            exit 1
+        }
         ;;
     *)
         echo "Unknown option: $option" | tee -a "$LOG"
@@ -402,11 +420,6 @@ for file in "${files_to_delete[@]}"; do
 done
 
 clear
-
-# copy fastfetch config if opensuse is not present
-if [ ! -f "$HOME/.config/fastfetch/opensuse.png" ]; then
-    cp -r assets/fastfetch "$HOME/.config/"
-fi
 
 printf "\n%.0s" {1..2}
 # final check essential packages if it is installed
