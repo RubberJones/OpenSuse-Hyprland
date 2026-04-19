@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+#### 📅 **Updated: April 19th, 2026**
+
+- Fixed `install.sh` overwritting fastfetch config
+
 #### 📅 **Updated: April 14th, 2026**
 
 - Added missing QT kvantum pkgs to fix polykit issues
